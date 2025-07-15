@@ -1,0 +1,41 @@
+{% extends 'sentiment_app/base.html' %}
+
+{% block title %}Analisis Sentimen dengan Model SVM{% endblock %}
+
+{% block extra_head %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1>Analisis Sentimen dengan Model SVM</h1>
+<textarea id="inputText" rows="4" placeholder="Masukkan teks di sini..."></textarea>
+<button id="predictBtn">Prediksi</button>
+<h2>Hasil Prediksi:</h2>
+<p id="result"></p>
+
+<div class="examples">
+    <h3>Contoh Kalimat Positif:</h3>
+    <ul>
+        <li>Produk ini berkualitas dan memuaskan.</li>
+        <li>Skincarenya mantap!!!</li>
+    </ul>
+    <h3>Contoh Kalimat Negatif:</h3>
+    <ul>
+        <li>Pelayanan sangat buruk dan lambat.</li>
+        <li>Barang datang tidak sesuai / palsu.</li>
+    </ul>
+</div>
+
+<script>
+    $('#predictBtn').click(function() {
+        const text = $('#inputText').val();
+        $.post("{% url 'predict' %}", {text: text}, function(data) {
+            if(data.result) {
+                $('#result').text(data.result);
+            } else {
+                $('#result').text('Terjadi kesalahan.');
+            }
+        });
+    });
+</script>
+{% endblock %}
