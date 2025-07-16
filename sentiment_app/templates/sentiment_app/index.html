@@ -32,8 +32,16 @@
         $.post("{% url 'predict' %}", {text: text}, function(data) {
             if(data.result) {
                 $('#result').text(data.result);
+                if(data.result === 'positif') {
+                    $('#result').removeClass('negative-result').addClass('positive-result');
+                } else if(data.result === 'negatif') {
+                    $('#result').removeClass('positive-result').addClass('negative-result');
+                } else {
+                    $('#result').removeClass('positive-result negative-result');
+                }
             } else {
                 $('#result').text('Terjadi kesalahan.');
+                $('#result').removeClass('positive-result negative-result');
             }
         });
     });
